@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/home/main_food_page.dart';
+import 'package:food_delivery/pages/food/popular_food_detail.dart';
 import 'package:get/get.dart';
 
 //https://www.youtube.com/watch?v=7dAt-JMSCVQ&t=27796s
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MainFoodPage()  //const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const PopularFoodDetail()  //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
