@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/controller/recommended_product_controller.dart';
 import 'package:food_delivery/models/popular_product_model.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
@@ -10,7 +11,7 @@ import 'package:food_delivery/widgets/app_column.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/icon_and_text_widget.dart';
 import 'package:food_delivery/widgets/small_text.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({super.key});
@@ -50,10 +51,12 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       children: [
         //slider section
         GetBuilder<PopularProductController>(builder: (popularProducts) {
+   
           return popularProducts.isLoaded
               ? Container(
                   //color: Colors.redAccent,
                   height: Dimensions.height(320),
+
                   child: PageView.builder(
                     controller: pageController,
                     itemCount: popularProducts.PopularProductList.length,
@@ -123,7 +126,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             ],
           ),
         ),
-
+        //recommended food
         //list of foods and images
         GetBuilder<RecommendedProductController>(
             builder: (recommendedProducts) {
@@ -133,93 +136,104 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   shrinkWrap: true,
                   itemCount: recommendedProducts.recommendedProductList.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(
-                        left: Dimensions.width(20),
-                        right: Dimensions.width(20),
-                        bottom: Dimensions.height(10),
-                      ),
-                      child: Row(
-                        children: [
-                          //image section
-                          Container(
-                            height: Dimensions.height(120),
-                            width: Dimensions.height(120),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.height(20)),
-                              color: Colors.white38,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/'+recommendedProducts.recommendedProductList[index].img!),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          //text container
-                          Expanded(
-                            child: Container(
-                              height: Dimensions.height(110),
+                    return GestureDetector(
+                      onTap: (() {
+                        Get.toNamed(RouteHelper.getRecommendedFood(index));
+                      }),
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: Dimensions.width(20),
+                          right: Dimensions.width(20),
+                          bottom: Dimensions.height(10),
+                        ),
+                        child: Row(
+                          children: [
+                            //image section
+                            Container(
+                              height: Dimensions.height(120),
+                              width: Dimensions.height(120),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(
-                                    Dimensions.height(20),
-                                  ),
-                                  bottomRight: Radius.circular(
-                                    Dimensions.height(20),
-                                  ),
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: Dimensions.width(10),
-                                    right: Dimensions.width(10)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    BigText(
-                                      text: recommendedProducts.recommendedProductList[index].name!,
-                                    ),
-                                    SizedBox(
-                                      height: Dimensions.height(10),
-                                    ),
-                                    SmallText(
-                                        text: "With chinese characteristics"),
-                                    SizedBox(
-                                      height: Dimensions.height(10),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        IconAndTextWidget(
-                                            icon: Icons.circle_sharp,
-                                            text: "Normal",
-                                            iconColor: AppColors.iconColor1),
-                                        IconAndTextWidget(
-                                            icon: Icons.location_on,
-                                            text: "1.7km",
-                                            iconColor: AppColors.mainColor),
-                                        IconAndTextWidget(
-                                            icon: Icons
-                                                .access_time_filled_rounded,
-                                            text: "32min",
-                                            iconColor: AppColors.iconColor2),
-                                      ],
-                                    ),
-                                  ],
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.height(20)),
+                                color: Colors.white38,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/' +
+                                          recommendedProducts
+                                              .recommendedProductList[index]
+                                              .img!),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            //text container
+                            Expanded(
+                              child: Container(
+                                height: Dimensions.height(110),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(
+                                      Dimensions.height(20),
+                                    ),
+                                    bottomRight: Radius.circular(
+                                      Dimensions.height(20),
+                                    ),
+                                  ),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: Dimensions.width(10),
+                                      right: Dimensions.width(10)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      BigText(
+                                        text: recommendedProducts
+                                            .recommendedProductList[index]
+                                            .name!,
+                                      ),
+                                      SizedBox(
+                                        height: Dimensions.height(10),
+                                      ),
+                                      SmallText(
+                                          text: "With chinese characteristics"),
+                                      SizedBox(
+                                        height: Dimensions.height(10),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          IconAndTextWidget(
+                                              icon: Icons.circle_sharp,
+                                              text: "Normal",
+                                              iconColor: AppColors.iconColor1),
+                                          IconAndTextWidget(
+                                              icon: Icons.location_on,
+                                              text: "1.7km",
+                                              iconColor: AppColors.mainColor),
+                                          IconAndTextWidget(
+                                              icon: Icons
+                                                  .access_time_filled_rounded,
+                                              text: "32min",
+                                              iconColor: AppColors.iconColor2),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 )
-              : CircularProgressIndicator(
+              : const CircularProgressIndicator(
                   color: AppColors.mainColor,
                 );
         }),
@@ -257,21 +271,24 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.height(220),
-            margin: EdgeInsets.only(
-                left: Dimensions.width(10), right: Dimensions.width(10)),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.height(30)),
-              color: index.isEven
-                  ? const Color(0xFF69c5df)
-                  : const Color(0xFF9294cc),
-              image: DecorationImage(
-                
-                  image: NetworkImage(
-                      '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/'+popularProduct.img!),
-                  fit: BoxFit.cover,
-              )
+          GestureDetector(
+            onTap: (() {
+              Get.toNamed(RouteHelper.getPopularFood(index));
+            }),
+            child: Container(
+              height: Dimensions.height(220),
+              margin: EdgeInsets.only(
+                  left: Dimensions.width(10), right: Dimensions.width(10)),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.height(30)),
+                  color: index.isEven
+                      ? const Color(0xFF69c5df)
+                      : const Color(0xFF9294cc),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/${popularProduct.img!}'),
+                    fit: BoxFit.cover,
+                  )),
             ),
           ),
           Align(

@@ -23,4 +23,8 @@ class PopularProductController extends GetxController {
       update();
     } else {}
   }
+
+  void setQuantity(bool isIncrement){
+    g
+  }
 }

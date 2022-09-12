@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controller/recommended_product_controller.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/expandable_text_widget.dart';
+import 'package:get/get.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({super.key});
+  final int pageId;
+  const RecommendedFoodDetail({super.key, required this.pageId});
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<RecommendedProductController>().recommendedProductList[pageId];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: Dimensions.height(80),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                AppIcon(icon: Icons.clear),
+              children: [
+                GestureDetector(
+                  onTap: (() {
+                    Get.toNamed(RouteHelper.getinitial());
+                  }),
+                  child: AppIcon(icon: Icons.clear),
+                ),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -38,7 +52,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 child: Center(
                     child: BigText(
                   size: 26,
-                  text: "Chinese Side",
+                  text: product.name!,
                 )),
               ),
             ),
@@ -46,8 +60,8 @@ class RecommendedFoodDetail extends StatelessWidget {
             backgroundColor: AppColors.yellowColor,
             expandedHeight: Dimensions.height(300),
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/image/food0.png",
+              background: Image.network(
+                '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/'+product.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -60,9 +74,9 @@ class RecommendedFoodDetail extends StatelessWidget {
                   margin: EdgeInsets.only(
                       left: Dimensions.height(20),
                       right: Dimensions.height(20)),
-                  child: const ExpandableTextWidget(
+                  child: ExpandableTextWidget(
                       text:
-                          "Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize Every other day i organize "),
+                         product.description!),
                 ),
               ],
             ),
@@ -89,7 +103,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   iconSize: 24,
                 ),
                 BigText(
-                  text: "\$12.88  X  0 ",
+                  text: "\$ ${product.price!}  X  0 ",
                   color: AppColors.mainBlackColor,
                   size: Dimensions.width(26),
                 ),
@@ -118,20 +132,19 @@ class RecommendedFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.only(
-                      top: Dimensions.height(20),
-                      bottom: Dimensions.height(20),
-                      left: Dimensions.width(20),
-                      right: Dimensions.width(20)),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.height(20)),
-                      color: Colors.white),
-                  child: const Icon(
-                    Icons.favorite,
-                    color: AppColors.mainColor,
-                  )
-                ),
+                    padding: EdgeInsets.only(
+                        top: Dimensions.height(20),
+                        bottom: Dimensions.height(20),
+                        left: Dimensions.width(20),
+                        right: Dimensions.width(20)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.height(20)),
+                        color: Colors.white),
+                    child: const Icon(
+                      Icons.favorite,
+                      color: AppColors.mainColor,
+                    )),
                 Container(
                   padding: EdgeInsets.only(
                       top: Dimensions.height(20),
