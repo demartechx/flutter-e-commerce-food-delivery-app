@@ -38,12 +38,13 @@ class PopularProductController extends GetxController {
       _quantity = checkQuantity(_quantity + 1);
     } else {
       _quantity = checkQuantity(_quantity - 1);
+      print("decrement" + _quantity.toString());
     }
     update();
   }
 
   int checkQuantity(int quantity) {
-    if (quantity < 0) {
+    if ((_inCartItems + quantity) < 0) {
       Get.snackbar(
         "Item count",
         "You can't reduce more!",
@@ -51,7 +52,7 @@ class PopularProductController extends GetxController {
         colorText: Colors.white,
       );
       return 0;
-    } else if (quantity > 20) {
+    } else if ((_inCartItems + quantity) > 20) {
       Get.snackbar(
         "Item count",
         "You can't add more!",
@@ -64,32 +65,38 @@ class PopularProductController extends GetxController {
     }
   }
 
-  void initProduct(CartController cart) {
+  void initProduct(ProductModel product, CartController cart) {
     _quantity = 0;
     _inCartItems = 0;
     _cart = cart;
+
+    var exist = false;
+    exist = _cart.existInCart(product);
     //if exist
     //get from storage _inCartItems=3
+    print("exist or not " + exist.toString());
+    if (exist) {
+      _inCartItems = _cart.getQuantity(product);
+    }
+    print("the quantity in the cart is " + _inCartItems.toString());
   }
 
   void addItem(ProductModel product) {
-    if (_quantity > 0) {
-      _cart.addItem(product, _quantity);
-      _quantity = 0;
-      _cart.items.forEach((key, value) {
-        print("The id is " +
-            value.id.toString() +
-            " The quantity is " +
-            value.quantity.toString());
-      });
-    } else {
-      
-      Get.snackbar(
-        "Item count",
-        "You should at least add an item in the cart!",
-        backgroundColor: AppColors.mainColor,
-        colorText: Colors.white,
-      );
-    }
+    _cart.addItem(product, _quantity);
+    _quantity = 0;
+    _inCartItems = _cart.getQuantity(product);
+    _cart.items.forEach((key, value) {
+      print("The id is " +
+          value.id.toString() +
+          " The quantity is " +
+          value.quantity.toString());
+    });
+
+    update();
+ 
+  }
+
+  int get totalItems {
+    return _cart.totalItems;
   }
 }
