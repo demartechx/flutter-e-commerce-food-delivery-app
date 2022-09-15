@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
+import 'package:food_delivery/pages/cart/cart_page.dart';
 import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
@@ -63,7 +64,11 @@ class PopularFoodDetail extends StatelessWidget {
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return Stack(
                       children: [
-                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        GestureDetector(
+                          onTap: (() {
+                            Get.to(()=> CartPage());
+                          }),
+                          child: AppIcon(icon: Icons.shopping_cart_outlined)),
                         Get.find<PopularProductController>().totalItems >= 1
                             ? Positioned(
                                 right: 0,
