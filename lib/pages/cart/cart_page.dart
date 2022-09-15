@@ -10,6 +10,8 @@ import 'package:food_delivery/widgets/small_text.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
+import '../../routes/route_helper.dart';
+
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CartPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => MainFoodPage());
+                  Get.toNamed(RouteHelper.getinitial());
                 },
                 child: AppIcon(
                   icon: Icons.home_outlined,
@@ -64,8 +66,10 @@ class CartPage extends StatelessWidget {
               context: context,
               removeTop: true,
               child: GetBuilder<CartController>(builder: (cartController) {
+                var _cartList = cartController.getItems;
+
                 return ListView.builder(
-                  itemCount: cartController.getItems.length,
+                  itemCount: _cartList.length,
                   itemBuilder: (_, index) {
                     return Container(
                       height: Dimensions.height(100),
@@ -84,7 +88,7 @@ class CartPage extends StatelessWidget {
                                     image: NetworkImage(AppConstants.BASE_URL +
                                         AppConstants.UPLOAD_URL +
                                         '/' +
-                                        cartController.getItems[index].img!),
+                                        _cartList[index].img!),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(
                                     Dimensions.height(20)),
@@ -102,7 +106,7 @@ class CartPage extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   BigText(
-                                    text: cartController.getItems[index].name!,
+                                    text: _cartList[index].name!,
                                     color: Colors.black54,
                                   ),
                                   SmallText(text: "Spicy"),
@@ -111,8 +115,7 @@ class CartPage extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       BigText(
-                                        text: cartController
-                                            .getItems[index].price
+                                        text: _cartList[index].price
                                             .toString(),
                                         color: Colors.redAccent,
                                       ),
@@ -142,7 +145,7 @@ class CartPage extends StatelessWidget {
                                             ),
                                             BigText(
                                               text:
-                                                  "0", //popularProduct.inCartItems
+                                                  _cartList[index].quantity.toString(), //popularProduct.inCartItems
                                               //.toString(),
                                             ),
                                             SizedBox(
