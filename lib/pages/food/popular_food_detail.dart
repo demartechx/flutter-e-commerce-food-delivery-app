@@ -14,7 +14,9 @@ import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int pageId;
-  const PopularFoodDetail({super.key, required this.pageId});
+  final String page;
+  const PopularFoodDetail(
+      {super.key, required this.pageId, required this.page});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,11 @@ class PopularFoodDetail extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(RouteHelper.getinitial());
+                      if (page == 'cartpage') {
+                        Get.toNamed(RouteHelper.getCardPage());
+                      } else {
+                        Get.toNamed(RouteHelper.getinitial());
+                      }
                     },
                     child: const AppIcon(
                       icon: Icons.arrow_back_ios,
@@ -64,8 +70,9 @@ class PopularFoodDetail extends StatelessWidget {
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return GestureDetector(
                       onTap: () {
-
-                        controller.totalItems >= 1 ? Get.toNamed(RouteHelper.getCardPage()): '';
+                        controller.totalItems >= 1
+                            ? Get.toNamed(RouteHelper.getCardPage())
+                            : '';
                       },
                       child: Stack(
                         children: [
@@ -87,9 +94,7 @@ class PopularFoodDetail extends StatelessWidget {
                                   right: 4,
                                   top: 3,
                                   child: BigText(
-                                    text: controller
-                                        .totalItems
-                                        .toString(),
+                                    text: controller.totalItems.toString(),
                                     size: 12,
                                     color: Colors.white,
                                   ),
