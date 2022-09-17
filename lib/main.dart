@@ -3,6 +3,7 @@ import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/controller/recommended_product_controller.dart';
 import 'package:food_delivery/pages/cart/cart_page.dart';
 import 'package:food_delivery/pages/home/main_food_page.dart';
+import 'package:food_delivery/pages/splash/splash_page.dart';
 import 'package:food_delivery/routes/route_helper.dart';
 import 'package:get/get.dart';
 import 'helper/dependencies.dart' as dep;
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteHelper.getinitial(),
+      // home: SplashScreen(),
+      initialRoute: RouteHelper.getSplashPage(),
       getPages: RouteHelper.routes,
     );
   }
