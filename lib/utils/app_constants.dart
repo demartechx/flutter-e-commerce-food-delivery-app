@@ -9,4 +9,6 @@ class AppConstants {
 
   static const String TOKEN = 'DemartechxToken';
 
+  static const String CART_LIST = 'cart-list';
+
 }
