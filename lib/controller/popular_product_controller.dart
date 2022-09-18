@@ -39,7 +39,7 @@ class PopularProductController extends GetxController {
       _quantity = checkQuantity(_quantity + 1);
     } else {
       _quantity = checkQuantity(_quantity - 1);
-      print("decrement" + _quantity.toString());
+      // print("decrement" + _quantity.toString());
     }
     update();
   }
@@ -79,11 +79,11 @@ class PopularProductController extends GetxController {
     exist = _cart.existInCart(product);
     //if exist
     //get from storage _inCartItems=3
-    print("exist or not " + exist.toString());
+    // print("exist or not " + exist.toString());
     if (exist) {
       _inCartItems = _cart.getQuantity(product);
     }
-    print("the quantity in the cart is " + _inCartItems.toString());
+    // print("the quantity in the cart is " + _inCartItems.toString());
   }
 
   void addItem(ProductModel product) {
@@ -91,10 +91,10 @@ class PopularProductController extends GetxController {
     _quantity = 0;
     _inCartItems = _cart.getQuantity(product);
     _cart.items.forEach((key, value) {
-      print("The id is " +
-          value.id.toString() +
-          " The quantity is " +
-          value.quantity.toString());
+      // print("The id is " +
+      //     value.id.toString() +
+      //     " The quantity is " +
+      //     value.quantity.toString());
     });
 
     update();
