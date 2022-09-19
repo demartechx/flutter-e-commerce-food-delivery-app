@@ -11,8 +11,9 @@ class CartRepo {
   List<String> cartHistory = [];
 
   void addToCartList(List<CartModel> cartList) {
-    // sharedPreferences.remove(AppConstants.CART_LIST);
-    // sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+    //sharedPreferences.remove(AppConstants.CART_LIST);
+    //sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+    //return;
     var time = DateTime.now().toString();
     cart = [];
     /*
@@ -33,7 +34,7 @@ class CartRepo {
     List<String> carts = [];
     if (sharedPreferences.containsKey(AppConstants.CART_LIST)) {
       carts = sharedPreferences.getStringList(AppConstants.CART_LIST)!;
-      print("inside getcardlist " + carts.toString());
+      // print("inside getcardlist " + carts.toString());
     }
     List<CartModel> cartList = [];
 
@@ -66,7 +67,7 @@ class CartRepo {
     }
 
     for (int i = 0; i < cart.length; i++) {
-      print("history list " + cart[i]);
+      // print("history list " + cart[i]);
       cartHistory.add(cart[i]);
     }
 
@@ -74,11 +75,11 @@ class CartRepo {
 
     sharedPreferences.setStringList(
         AppConstants.CART_HISTORY_LIST, cartHistory);
-    print("The lenght of history list is " +
-        getCartHistoryList().length.toString());
+    // print("The lenght of history list is " +
+    //     getCartHistoryList().length.toString());
 
     for (int j = 0; j < getCartHistoryList().length; j++) {
-      print("time is " + getCartHistoryList()[j].time.toString());
+      // print("time is " + getCartHistoryList()[j].time.toString());
     }
   }
 
@@ -86,7 +87,4 @@ class CartRepo {
     cart = [];
     sharedPreferences.remove(AppConstants.CART_LIST);
   }
-
-
-
 }

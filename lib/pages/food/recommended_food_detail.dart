@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/controller/recommended_product_controller.dart';
-import 'package:food_delivery/pages/cart/cart_page.dart';
 import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
@@ -42,7 +41,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                         Get.toNamed(RouteHelper.getinitial());
                       }
                     }),
-                    child: AppIcon(icon: Icons.clear),
+                    child: const AppIcon(icon: Icons.clear),
                   ),
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return GestureDetector(
@@ -54,9 +53,9 @@ class RecommendedFoodDetail extends StatelessWidget {
                       
                                           child: Stack(
                         children: [
-                          AppIcon(icon: Icons.shopping_cart_outlined),
+                          const AppIcon(icon: Icons.shopping_cart_outlined),
                           controller.totalItems >= 1
-                              ? Positioned(
+                              ? const Positioned(
                                   right: 0,
                                   top: 0,
                                   child: AppIcon(
@@ -151,7 +150,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                       onTap: () {
                         controller.setQuantity(false);
                       },
-                      child: AppIcon(
+                      child: const AppIcon(
                         icon: Icons.remove,
                         backgroundColor: AppColors.mainColor,
                         iconColor: Colors.white,
@@ -168,7 +167,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                       onTap: () {
                         controller.setQuantity(true);
                       },
-                      child: AppIcon(
+                      child: const AppIcon(
                         icon: Icons.add,
                         backgroundColor: AppColors.mainColor,
                         iconColor: Colors.white,

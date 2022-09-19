@@ -53,7 +53,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         GetBuilder<PopularProductController>(builder: (popularProducts) {
    
           return popularProducts.isLoaded
-              ? Container(
+              ? SizedBox(
                   //color: Colors.redAccent,
                   height: Dimensions.height(320),
 

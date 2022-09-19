@@ -4,6 +4,8 @@ import 'package:food_delivery/pages/home/main_food_page.dart';
 import 'package:food_delivery/utils/colors.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -13,14 +15,10 @@ class _HomePageState extends State<HomePage> {
 
   
   List pages = [
-    MainFoodPage(),
-    Container(
-      child: Center(child: Text("2. Next page")),
-    ),
-    CartHistory(),
-    Container(
-      child: Center(child: Text("4. Next page")),
-    ),
+    const MainFoodPage(),
+    const Center(child: Text("2. Next page")),
+    const CartHistory(),
+    const Center(child: Text("4. Next page")),
   ];
 
   void onTapNav(int index) {

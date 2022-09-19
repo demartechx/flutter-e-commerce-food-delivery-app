@@ -8,6 +8,8 @@ import 'package:food_delivery/utils/dimensions.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

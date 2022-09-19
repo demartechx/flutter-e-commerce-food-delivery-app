@@ -21,50 +21,48 @@ class _MainFoodPageState extends State<MainFoodPage> {
         children: [
           //showing the header
           Container(
-            child: Container(
-                margin: EdgeInsets.only(
-                    top: Dimensions.height(45), bottom: Dimensions.height(15)),
-                padding: EdgeInsets.only(
-                    left: Dimensions.width(20), right: Dimensions.width(20)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        BigText(
-                          text: "Bangladesh",
-                          color: AppColors.mainColor,
-                        ),
-                        Row(
-                          children: [
-                            SmallText(
-                              text: "Narsingdi",
-                              color: Colors.black54,
-                            ),
-                            const Icon(
-                              Icons.arrow_drop_down_rounded,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    // Expanded(child: Container()),
-                    Center(
-                      child: Container(
-                          width: Dimensions.width(45),
-                          height: Dimensions.height(45),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.height(15)),
-                              color: AppColors.mainColor),
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          )),
-                    )
-                  ],
-                )),
-          ),
+              margin: EdgeInsets.only(
+                  top: Dimensions.height(45), bottom: Dimensions.height(15)),
+              padding: EdgeInsets.only(
+                  left: Dimensions.width(20), right: Dimensions.width(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      BigText(
+                        text: "Bangladesh",
+                        color: AppColors.mainColor,
+                      ),
+                      Row(
+                        children: [
+                          SmallText(
+                            text: "Narsingdi",
+                            color: Colors.black54,
+                          ),
+                          const Icon(
+                            Icons.arrow_drop_down_rounded,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  // Expanded(child: Container()),
+                  Center(
+                    child: Container(
+                        width: Dimensions.width(45),
+                        height: Dimensions.height(45),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.height(15)),
+                            color: AppColors.mainColor),
+                        child: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        )),
+                  )
+                ],
+              )),
           //showing the body
           const Expanded(
             child: SingleChildScrollView(

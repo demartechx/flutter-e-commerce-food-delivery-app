@@ -1,16 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:food_delivery/base/no_data_page.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
+import 'package:food_delivery/models/cart_model.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/big_text.dart';
+import 'package:food_delivery/widgets/small_text.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CartHistory extends StatelessWidget {
+  const CartHistory({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var getCartHistoryList = Get.find<CartController>().getCartHistoryList();
+    var getCartHistoryList =
+        Get.find<CartController>().getCartHistoryList().reversed.toList();
 
     Map<String, int> cartItemsPerOrder = Map();
 
@@ -23,11 +33,15 @@ class CartHistory extends StatelessWidget {
       }
     }
 
-    List<int> cartOrderTimeToList() {
+    List<int> cartItemsPerOrderToList() {
       return cartItemsPerOrder.entries.map((e) => e.value).toList();
     }
 
-    List<int> itemsPerOrder = cartOrderTimeToList();
+    List<String> cartOrderTimeToList() {
+      return cartItemsPerOrder.entries.map((e) => e.key).toList();
+    }
+
+    List<int> itemsPerOrder = cartItemsPerOrderToList();
 
     var listCounter = 0;
 
@@ -44,7 +58,7 @@ class CartHistory extends StatelessWidget {
             height: Dimensions.height(100),
             color: AppColors.mainColor,
             width: double.maxFinite,
-            padding: EdgeInsets.only(top: 45),
+            padding: const EdgeInsets.only(top: 45),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -52,7 +66,7 @@ class CartHistory extends StatelessWidget {
                   text: "Cart History",
                   color: Colors.white,
                 ),
-                AppIcon(
+                const AppIcon(
                   icon: Icons.shopping_cart_outlined,
                   iconColor: AppColors.mainColor,
                   backgroundColor: AppColors.yellowColor,
@@ -60,67 +74,171 @@ class CartHistory extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: Container(
-              // height: Dimensions.height(500),
-              margin: EdgeInsets.only(
-                  top: Dimensions.height(20),
-                  left: Dimensions.width(20),
-                  right: Dimensions.width(20)),
-              child: MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: ListView(
-                  children: [
-                    for (int i = 0; i < itemsPerOrder.length; i++)
-                      Container(
-                        margin: EdgeInsets.only(bottom: Dimensions.height(20)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          GetBuilder<CartController>(builder: (_cartController) {
+            return _cartController.getCartHistoryList().length > 0
+                ? Expanded(
+                    child: Container(
+                      // height: Dimensions.height(500),
+                      margin: EdgeInsets.only(
+                          top: Dimensions.height(20),
+                          left: Dimensions.width(20),
+                          right: Dimensions.width(20)),
+                      child: MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: ListView(
                           children: [
-                            BigText(text: "05/02/2021"),
-                            SizedBox(
-                              height: Dimensions.height(10),
-                            ),
-                            Row(
-                              children: [
-                                Wrap(
-                                  direction: Axis.horizontal,
-                                  children: List.generate(
-                                    itemsPerOrder[i],
-                                    (index) {
-                                      if (listCounter <
-                                          getCartHistoryList.length) {
-                                        listCounter++;
-                                      }
-                                      return index<2 ? Container(
-                                        height: Dimensions.height(80),
-                                        width: Dimensions.height(80),
-                                        margin: EdgeInsets.only(right: Dimensions.width(5)),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimensions.height(8)),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/${getCartHistoryList[listCounter - 1].img}',
-                                            ),
+                            for (int i = 0; i < itemsPerOrder.length; i++)
+                              Container(
+                                height: Dimensions.height(120),
+                                margin: EdgeInsets.only(
+                                    bottom: Dimensions.height(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    (() {
+                                      DateTime parseDate = DateFormat(
+                                              "yyyy-MM-dd HH:mm:ss")
+                                          .parse(getCartHistoryList[listCounter]
+                                              .time!);
+                                      getCartHistoryList[listCounter].time!;
+                                      var outputFormat =
+                                          DateFormat("MM/dd/yyy hh:mm a");
+                                      var outputDate =
+                                          outputFormat.format(parseDate);
+                                      return BigText(text: outputDate);
+                                    }()),
+                                    SizedBox(
+                                      height: Dimensions.height(10),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Wrap(
+                                          direction: Axis.horizontal,
+                                          children: List.generate(
+                                            itemsPerOrder[i],
+                                            (index) {
+                                              if (listCounter <
+                                                  getCartHistoryList.length) {
+                                                listCounter++;
+                                              }
+                                              return index <= 2
+                                                  ? Container(
+                                                      height:
+                                                          Dimensions.height(80),
+                                                      width:
+                                                          Dimensions.height(80),
+                                                      margin: EdgeInsets.only(
+                                                          right:
+                                                              Dimensions.width(
+                                                                  5)),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    Dimensions
+                                                                        .height(
+                                                                            8)),
+                                                        image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: NetworkImage(
+                                                            '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/${getCartHistoryList[listCounter - 1].img}',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Container();
+                                            },
                                           ),
                                         ),
-                                      ) : Container();
-                                    },
-                                  ),
+                                        SizedBox(
+                                          height: Dimensions.height(80),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              SmallText(
+                                                text: "Total",
+                                                color: AppColors.titleColor,
+                                              ),
+                                              BigText(
+                                                text:
+                                                    "${itemsPerOrder[i]} Items",
+                                                color: AppColors.titleColor,
+                                              ),
+                                              GestureDetector(
+                                                onTap: (() {
+                                                  var orderTime =
+                                                      cartOrderTimeToList();
+                                                  Map<int, CartModel>
+                                                      moreOrder = {};
+                                                  for (int j = 0;
+                                                      j <
+                                                          getCartHistoryList
+                                                              .length;
+                                                      j++) {
+                                                    if (getCartHistoryList[j]
+                                                            .time ==
+                                                        orderTime[i]) {
+                                                      moreOrder.putIfAbsent(
+                                                          getCartHistoryList[j]
+                                                              .id!,
+                                                          () => CartModel.fromJson(
+                                                              jsonDecode(jsonEncode(
+                                                                  getCartHistoryList[
+                                                                      j]))));
+                                                    }
+                                                  }
+                                                  Get.find<CartController>()
+                                                      .setItems = moreOrder;
+                                                  Get.find<CartController>()
+                                                      .addToCartList();
+                                                  Get.toNamed(RouteHelper
+                                                      .getCardPage());
+                                                }),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          Dimensions.width(10),
+                                                      vertical:
+                                                          Dimensions.width(5)),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      Dimensions.height(5),
+                                                    ),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: AppColors
+                                                            .mainColor),
+                                                  ),
+                                                  child: SmallText(
+                                                    text: "One more",
+                                                    color: AppColors.mainColor,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
-                              ],
-                            )
+                              ),
                           ],
                         ),
                       ),
-                  ],
-                ),
-              ),
-            ),
-          )
+                    ),
+                  )
+                : SizedBox(
+                  height: MediaQuery.of(context).size.height/1.5,
+                  child: const Center(child: NoDataPage(text: "You didn't buy anything so far", imgPath: "assets/image/empty_box.png",)));
+          })
         ],
       ),
     );
