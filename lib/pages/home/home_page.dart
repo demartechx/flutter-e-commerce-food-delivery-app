@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/pages/cart/cart_history.dart';
 import 'package:food_delivery/pages/home/main_food_page.dart';
 import 'package:food_delivery/utils/colors.dart';
 
@@ -16,9 +17,7 @@ class _HomePageState extends State<HomePage> {
     Container(
       child: Center(child: Text("2. Next page")),
     ),
-    Container(
-      child: Center(child: Text("3. Next page")),
-    ),
+    CartHistory(),
     Container(
       child: Center(child: Text("4. Next page")),
     ),
