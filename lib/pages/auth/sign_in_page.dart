@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/pages/auth/sign_up_page.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_text_field.dart';
@@ -33,17 +34,29 @@ class SignInPage extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(left: Dimensions.width(20)),
+                width: double.maxFinite,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Hello",
                       style: TextStyle(
-                        fontSize: Dimensions.height(70),
-                        fontWeight: FontWeight.bold
-                      ),
+                          fontSize: Dimensions.height(70),
+                          fontWeight: FontWeight.bold),
+                    ),
+                     Text(
+                      "Sign into your account",
+                      style: TextStyle(
+                          fontSize: Dimensions.height(20),
+                          color: Colors.grey[500]
+                          // fontWeight: FontWeight.bold
+                          ),
                     )
                   ],
                 ),
+              ),
+              SizedBox(
+                height: Dimensions.height(20),
               ),
               AppTextField(
                 textController: emailController,
@@ -61,13 +74,18 @@ class SignInPage extends StatelessWidget {
               SizedBox(
                 height: Dimensions.height(10),
               ),
-              RichText(
-                text: TextSpan(
-                  
-                    text: "Sign into your account",
-                    style: TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: Dimensions.height(20))),
+              Row(
+                children: [
+                  Expanded(child: Container()),
+                  RichText(
+                    text: TextSpan(
+                        text: "Sign into your account",
+                        style: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: Dimensions.height(20))),
+                  ),
+                  SizedBox(width: Dimensions.width(20),)
+                ],
               ),
               SizedBox(
                 height: Dimensions.screenHeight * 0.05,
@@ -86,6 +104,27 @@ class SignInPage extends StatelessWidget {
                   size: Dimensions.height(30),
                   color: Colors.white,
                 )),
+              ),
+              SizedBox(
+                height: Dimensions.screenHeight * 0.05,
+              ),
+              RichText(
+                text: TextSpan(
+                    text: "Don't have an account? ",
+                    style: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: Dimensions.height(20)),
+                    children: [
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignUpPage(), transition: Transition.fade),
+                        text: "Create",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                            color: AppColors.mainBlackColor,
+                            fontSize: Dimensions.height(20),
+                            ),
+                      )
+                    ]),
               ),
             ],
           ),
