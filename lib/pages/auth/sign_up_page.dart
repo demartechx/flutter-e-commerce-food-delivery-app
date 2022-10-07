@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/base/custom_loader.dart';
 import 'package:food_delivery/base/show_custom_snackbar.dart';
 import 'package:food_delivery/controller/auth_controller.dart';
 import 'package:food_delivery/models/sign_up_body_model.dart';
@@ -18,8 +19,8 @@ class SignUpPage extends StatelessWidget {
     var phoneController = TextEditingController();
     var signUpImages = ["t.png", "f.png", "g.png"];
 
-    void _registration() {
-      var authController = Get.find<AuthController>();
+    void _registration(AuthController authController) {
+    
 
       String name = nameController.text.trim();
       String phone = phoneController.text.trim();
@@ -42,8 +43,6 @@ class SignUpPage extends StatelessWidget {
         showCustomSnackBar("Password can not be less than six characters",
             title: "Password");
       } else {
-        showCustomSnackBar("All went well", title: "Perfect");
-
         SignUpBody signUpBody = SignUpBody(
           name: name,
           phone: phone,
@@ -53,7 +52,8 @@ class SignUpPage extends StatelessWidget {
 
         authController.registration(signUpBody).then((status) {
           if (status.isSuccess) {
-            print("Success registration");
+            // print("Success registration");
+            showCustomSnackBar("All went well", title: "Success registration");
           } else {
             showCustomSnackBar(status.message);
           }
@@ -64,8 +64,9 @@ class SignUpPage extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: GetBuilder<AuthController>(builder: (_authController) {
+        return !_authController.isLoading ? SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
@@ -116,7 +117,7 @@ class SignUpPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (() {
-                  _registration();
+                  _registration(_authController);
                 }),
                 child: Container(
                   width: Dimensions.screenWidth / 2,
@@ -170,6 +171,8 @@ class SignUpPage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        ): CustomLoader();
+      }),
+    );
   }
 }
