@@ -198,7 +198,7 @@ class CartHistory extends StatelessWidget {
                                                   Get.find<CartController>()
                                                       .addToCartList();
                                                   Get.toNamed(RouteHelper
-                                                      .getCardPage());
+                                                      .getCartPage());
                                                 }),
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
@@ -236,8 +236,12 @@ class CartHistory extends StatelessWidget {
                     ),
                   )
                 : SizedBox(
-                  height: MediaQuery.of(context).size.height/1.5,
-                  child: const Center(child: NoDataPage(text: "You didn't buy anything so far", imgPath: "assets/image/empty_box.png",)));
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    child: const Center(
+                        child: NoDataPage(
+                      text: "You didn't buy anything so far",
+                      imgPath: "assets/image/empty_box.png",
+                    )));
           })
         ],
       ),

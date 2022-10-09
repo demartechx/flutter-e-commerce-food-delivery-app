@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/base/no_data_page.dart';
+import 'package:food_delivery/controller/auth_controller.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/controller/recommended_product_controller.dart';
@@ -251,67 +252,74 @@ class CartPage extends StatelessWidget {
       bottomNavigationBar:
           GetBuilder<CartController>(builder: (cartController) {
         return Container(
-          height: Dimensions.height(120),
-          padding: EdgeInsets.only(
-              top: Dimensions.height(30),
-              bottom: Dimensions.height(30),
-              left: Dimensions.width(20),
-              right: Dimensions.width(20)),
-          decoration: BoxDecoration(
-              color: AppColors.buttonBackgroundColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(Dimensions.height(40)),
-                  topRight: Radius.circular(Dimensions.height(40)))),
-          child: cartController.getItems.length > 0 ? Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                    top: Dimensions.height(20),
-                    bottom: Dimensions.height(20),
-                    left: Dimensions.width(20),
-                    right: Dimensions.width(20)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.height(20)),
-                    color: Colors.white),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: Dimensions.width(5),
-                    ),
-                    BigText(text: "\$ ${cartController.totalAmount}"),
-                    SizedBox(
-                      width: Dimensions.width(5),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    top: Dimensions.height(20),
-                    bottom: Dimensions.height(20),
-                    left: Dimensions.width(20),
-                    right: Dimensions.width(20)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      Dimensions.height(20),
-                    ),
-                    color: AppColors.mainColor),
-                child: GestureDetector(
-                  onTap: (() {
-                    //popularProduct.addItem(product);
-                    // print("tapped");
-                    cartController.addToHistory();
-                  }),
-                  child: BigText(
-                    text: "Check out",
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ) : Container()
-        );
+            height: Dimensions.height(120),
+            padding: EdgeInsets.only(
+                top: Dimensions.height(30),
+                bottom: Dimensions.height(30),
+                left: Dimensions.width(20),
+                right: Dimensions.width(20)),
+            decoration: BoxDecoration(
+                color: AppColors.buttonBackgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Dimensions.height(40)),
+                    topRight: Radius.circular(Dimensions.height(40)))),
+            child: cartController.getItems.length > 0
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            top: Dimensions.height(20),
+                            bottom: Dimensions.height(20),
+                            left: Dimensions.width(20),
+                            right: Dimensions.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.height(20)),
+                            color: Colors.white),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: Dimensions.width(5),
+                            ),
+                            BigText(text: "\$ ${cartController.totalAmount}"),
+                            SizedBox(
+                              width: Dimensions.width(5),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            top: Dimensions.height(20),
+                            bottom: Dimensions.height(20),
+                            left: Dimensions.width(20),
+                            right: Dimensions.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.height(20),
+                            ),
+                            color: AppColors.mainColor),
+                        child: GestureDetector(
+                          onTap: (() {
+                            if (Get.find<AuthController>().userHasLoggedIn()) {
+                              cartController.addToHistory();
+                            } else {
+                              Get.toNamed(RouteHelper.getSignInPage());
+                            }
+
+                            //popularProduct.addItem(product);
+                            // print("tapped");
+                          }),
+                          child: BigText(
+                            text: "Check out",
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container());
       }),
     );
   }

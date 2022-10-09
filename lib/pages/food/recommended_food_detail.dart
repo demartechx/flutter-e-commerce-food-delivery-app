@@ -14,7 +14,8 @@ import 'package:get/get.dart';
 class RecommendedFoodDetail extends StatelessWidget {
   final int pageId;
   final String page;
-  const RecommendedFoodDetail({super.key, required this.pageId, required this.page});
+  const RecommendedFoodDetail(
+      {super.key, required this.pageId, required this.page});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   GestureDetector(
                     onTap: (() {
                       if (page == 'cartpage') {
-                        Get.toNamed(RouteHelper.getCardPage());
+                        Get.toNamed(RouteHelper.getCartPage());
                       } else {
                         Get.toNamed(RouteHelper.getinitial());
                       }
@@ -45,13 +46,12 @@ class RecommendedFoodDetail extends StatelessWidget {
                   ),
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return GestureDetector(
-                     
-                        onTap: () {
-
-                        controller.totalItems >= 1 ? Get.toNamed(RouteHelper.getCardPage()): '';
+                      onTap: () {
+                        controller.totalItems >= 1
+                            ? Get.toNamed(RouteHelper.getCartPage())
+                            : '';
                       },
-                      
-                                          child: Stack(
+                      child: Stack(
                         children: [
                           const AppIcon(icon: Icons.shopping_cart_outlined),
                           controller.totalItems >= 1
@@ -59,12 +59,11 @@ class RecommendedFoodDetail extends StatelessWidget {
                                   right: 0,
                                   top: 0,
                                   child: AppIcon(
-                                      icon: Icons.circle,
-                                      size: 20,
-                                      iconColor: Colors.transparent,
-                                      backgroundColor: AppColors.mainColor,
-                                    ),
-                                  
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.mainColor,
+                                  ),
                                 )
                               : Container(),
                           controller.totalItems >= 1
@@ -72,9 +71,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                                   right: 4,
                                   top: 3,
                                   child: BigText(
-                                    text: controller
-                                        .totalItems
-                                        .toString(),
+                                    text: controller.totalItems.toString(),
                                     size: 12,
                                     color: Colors.white,
                                   ),
