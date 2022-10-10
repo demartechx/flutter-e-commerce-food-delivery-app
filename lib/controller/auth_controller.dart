@@ -39,6 +39,7 @@ class AuthController extends GetxController implements GetxService {
 
     if (response.statusCode == 200) {
       authRepo.saveUserToken(response.body["token"]);
+      print('my token is ' + response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
       responseModel = ResponseModel(false, response.statusText!);
@@ -57,7 +58,7 @@ class AuthController extends GetxController implements GetxService {
     return authRepo.userHasLoggedIn();
   }
 
-  bool clearSharedData(){
+  bool clearSharedData() {
     return authRepo.clearSharedData();
   }
 }
